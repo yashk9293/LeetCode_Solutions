@@ -35,9 +35,32 @@ public:
 
 
 
+// Optimal Solution - 1 [preferred]
+// T.C = O(nlogn)
+// S.C = O(n)
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        int n = intervals.size();
+        sort(intervals.begin(), intervals.end());
+        vector<vector<int>> ans;
+        for (int i = 0; i < n; i++) {
+            // if the current interval does not lie in the last interval:
+            if (ans.empty() || intervals[i][0] > ans.back()[1]) {
+                ans.push_back(intervals[i]);
+            }
+            // if the current interval lies in the last interval:
+            else {
+                ans.back()[1] = max(ans.back()[1], intervals[i][1]);
+            }
+        }
+        return ans;
+    }
+};
 
 
-// Optimal Solution - 1 (Line Sweep Algorithm)
+
+// Optimal Solution - 2 (Line Sweep Algorithm)
 // T.C = O(nlogn)
 // S.C = O(n)
 class Solution {
@@ -73,34 +96,6 @@ public:
 
             if(cnt == 0) {
                 ans.push_back({start, x});
-            }
-        }
-        return ans;
-    }
-};
-
-
-
-
-
-
-// Optimal Solution - 2
-// T.C = O(nlogn)
-// S.C = O(n)
-class Solution {
-public:
-    vector<vector<int>> merge(vector<vector<int>>& intervals) {
-        int n = intervals.size();
-        sort(intervals.begin(), intervals.end());
-        vector<vector<int>> ans;
-        for (int i = 0; i < n; i++) {
-            // if the current interval does not lie in the last interval:
-            if (ans.empty() || intervals[i][0] > ans.back()[1]) {
-                ans.push_back(intervals[i]);
-            }
-            // if the current interval lies in the last interval:
-            else {
-                ans.back()[1] = max(ans.back()[1], intervals[i][1]);
             }
         }
         return ans;
